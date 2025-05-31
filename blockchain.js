@@ -24,6 +24,25 @@ class Blockchain {
     }
 
     /**
+     * Replaces the chain.
+     * @param {array} chain - chain.
+    */ 
+    replaceChain(chain) {
+        if (chain.length <= this.chain.length) {
+            console.error('The incoming chain must be longer!');
+            return;
+        }
+
+        if (!Blockchain.isValidChain(chain)) {
+            console.error('The incoming chain must be valid!');
+            return;
+        }
+
+        console.log('replacing chaing with', chain)
+        this.chain = chain;
+    }
+
+    /**
      * Validate the blockchain.
      * @param {array} chain - The chain of blocks.
     */
