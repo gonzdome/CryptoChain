@@ -7,9 +7,9 @@ describe('Blockchain', () => {
     beforeEach(() => {
         blockchain = new Blockchain();
 
-    const genesisBlock = Block.genesis();
+        const genesisBlock = Block.genesis();
     
-    blockchain.chain.push(genesisBlock);
+        blockchain.chain.push(genesisBlock);
     });
 
     
@@ -30,5 +30,44 @@ describe('Blockchain', () => {
         const chainLastData = blockchain.chain[blockchain.chain.length - 1].data;
 
         expect(chainLastData).toEqual(newData);
-    });;
+    });
+
+    describe('isValidChain()', () => {
+        beforeEach(() => {
+            blockchain.addBlock({ data: 'bears'});
+            blockchain.addBlock({ data: 'bees'});
+            blockchain.addBlock({ data: 'honey'});
+        });
+
+        describe('when the chain does not start with the genesis block', () => {
+            if('returns false', () => {
+                blockchain.chain[0] = { data: 'fake-genesis' };
+                expect(Blockchain.isValidChain(blockchain.chain)).tobe(false);
+            });
+        });
+
+        describe('when the chain start with the genesis block and has multiple blocks', () => {
+            describe('and lastHash reference has changed', () => {
+                if('returns false', () => {
+                    blockchain.chain[2].lastHash = 'broken-lastHash';
+
+                    expect(Blockchain.isValidChain(blockchain.chain)).tobe(false);
+                });
+            });
+
+            describe('and the chain contains a block with an invalid field', () => {
+                if('returns false', () => {
+                    blockchain.chain[2].data = 'not-the-right-data';
+
+                    expect(Blockchain.isValidChain(blockchain.chain)).tobe(false);
+                });
+            });
+
+            describe('and the chain does not contains invalid blocks', () => {
+                if('returns true', () => {
+                    expect(Blockchain.isValidChain(blockchain.chain)).tobe(true);    
+                });
+            });
+        });
+    });
 });
