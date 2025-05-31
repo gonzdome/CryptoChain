@@ -32,9 +32,7 @@ class Blockchain {
 
         const chainLenght = chain.length;
         for (let i = 1; i < chainLenght; i++) {
-            const block = chain[i];
-            
-            const { timestamp, lastHash, hash, data } = block;
+            const { timestamp, lastHash, hash, data } = chain[i];
 
             const lastBlock = chain[i - 1];
             
