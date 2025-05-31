@@ -7,16 +7,13 @@ describe('Blockchain', () => {
     beforeEach(() => {
         blockchain = new Blockchain();        
     });
-    
-    const genesisBlock = Block.genesis();
-    blockchain.chain.push(genesisBlock);
 
     it('contains a `chain` array instance', () => {
         expect(blockchain.chain instanceof Array).toBe(true);
     });
 
     it('starts with genesis block', () => {
-        expect(blockchain.chain[0]).toEqual(genesisBlock);
+        expect(blockchain.chain[0]).toEqual(Block.genesis());
     });
 
     it('adds a new `block` to the chain', () => {
