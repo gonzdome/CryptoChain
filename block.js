@@ -8,12 +8,16 @@ class Block {
      * @param {string} lastHash - The hash of the previous block.
      * @param {string} hash - The hash of this block.
      * @param {any} data - The data stored in the block.
+     * @param {int} nonce - The unique number randomly generated.
+     * @param {int} difficulty - The difficulty of the nonce.
     */
-    constructor({ timestamp, lastHash, hash, data }) {
+    constructor({ timestamp, lastHash, hash, data, nonce, difficulty }) {
        this.timestamp = timestamp; 
        this.lastHash = lastHash; 
        this.hash = hash; 
        this.data = data; 
+       this.nonce = nonce; 
+       this.difficulty = difficulty; 
     };
 
     /**
@@ -31,12 +35,20 @@ class Block {
      * @returns {Block} The newly mined block.
     */
     static mineBlock({ lastBlock, data }) {
-        const timestamp = Date.now();
+        let hash, timestamp;
+        let nonce = 0;
+        
+        const { difficulty } = lastBlock;
+        
         const lastHash = lastBlock.hash;
 
-        const hash = cryptoHash(timestamp, lastHash, data);
+        do { 
+            nonce++;
+            timestamp = Date.now();
+            hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty);
+        } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty)) 
         
-        return new this({ timestamp, lastHash, data, hash });
+        return new this({ timestamp, lastHash, data, hash, nonce, difficulty });
     }
 }
 
