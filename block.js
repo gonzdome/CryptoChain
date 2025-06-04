@@ -37,14 +37,14 @@ class Block {
     static mineBlock({ lastBlock, data }) {
         let hash, timestamp;
         let nonce = 0;
-        
-        const { difficulty } = lastBlock;
+        let { difficulty } = lastBlock;
         
         const lastHash = lastBlock.hash;
 
         do { 
             nonce++;
             timestamp = Date.now();
+            difficulty = Block.adjustDifficulty({ originalBlock: lastBlock, timestamp });
             hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty);
         } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty)) 
         
