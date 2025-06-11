@@ -23,6 +23,8 @@ app.post('/api/mine', (req, res) => {
     
     blockchain.addBlock({ data });
 
+    pubsub.broadcastChain();
+
     res.redirect('/api/blocks');
 });
 
