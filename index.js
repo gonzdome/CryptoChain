@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Blockchain = require('./blockchain');
+const { syncChains } = require('./helpers/SyncChainsHelper');
 const PubSub = require('./pubsub');
 
 const app = express();
@@ -37,4 +38,5 @@ PEER_PORT = PEER_PORT || DEFAULT_PORT;
 
 app.listen(PEER_PORT, () => {
     console.log(`listening at http://localhost:${PEER_PORT}`);
+    syncChains(ROOT_NODE_ADDRESS, blockchain);
 });
