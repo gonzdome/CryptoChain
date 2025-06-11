@@ -36,7 +36,7 @@ class PubSub {
      * Function subscribe to channels.
     */
     subscribeToChannels() {
-        Object.values(CHANNELS).foreach(channel => {
+        Object.values(CHANNELS).forEach(channel => {
             this.subscriber.subscribe(channel);
         });
     };
