@@ -53,7 +53,7 @@ class PubSub {
     /**
      * Function to broadcast a message to the desired channel.
     */
-    broadcastBlockchain() {
+    broadcastChain() {
         this.publish({ channel: CHANNELS.BLOCKCHAIN, message: JSON.stringify(this.blockchain.chain) });
     };
 };
