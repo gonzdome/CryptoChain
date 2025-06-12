@@ -1,8 +1,8 @@
+const { syncChains } = require('./helpers/sync-chains');
 const express = require('express');
 const bodyParser = require('body-parser');
-const Blockchain = require('./blockchain');
-const { syncChains } = require('./helpers/SyncChainsHelper');
-const PubSub = require('./pubsub');
+const PubSub = require('./app/pubsub');
+const Blockchain = require('./blockchain/index');
 
 const app = express();
 const blockchain = new Blockchain();
