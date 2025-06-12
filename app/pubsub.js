@@ -1,5 +1,5 @@
 const redis = require('redis');
-const CHANNELS = require('./channels');
+const CHANNELS = require('../utils/channels');
 
 class PubSub {
     /**
