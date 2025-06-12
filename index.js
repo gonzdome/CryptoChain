@@ -36,5 +36,8 @@ PEER_PORT = PEER_PORT || DEFAULT_PORT;
 
 app.listen(PEER_PORT, () => {
     console.log(`listening at http://localhost:${PEER_PORT}`);
+
+    if (PEER_PORT !== DEFAULT_PORT) {
         syncChains(ROOT_NODE_ADDRESS, blockchain);
+    };
 });
