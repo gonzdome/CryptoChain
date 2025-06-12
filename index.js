@@ -11,8 +11,6 @@ const pubsub = new PubSub({ blockchain });
 const DEFAULT_PORT = 3000;
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
-setTimeout(() => pubsub.broadcastChain(), 1000);
-
 app.use(bodyParser.json());
 
 app.get('/api/blocks', (req, res) => {
@@ -38,5 +36,5 @@ PEER_PORT = PEER_PORT || DEFAULT_PORT;
 
 app.listen(PEER_PORT, () => {
     console.log(`listening at http://localhost:${PEER_PORT}`);
-    syncChains(ROOT_NODE_ADDRESS, blockchain);
+        syncChains(ROOT_NODE_ADDRESS, blockchain);
 });
