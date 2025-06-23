@@ -15,24 +15,6 @@ class Transaction {
         this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     };
 
-    createOutputMap({ senderWallet, recipient, amount }) {
-        const outputMap = {};
-
-        outputMap[recipient] = amount;
-        outputMap[senderWallet.publicKey] = senderWallet.balance - amount;
-
-        return outputMap;
-    };
-
-    createInput({ senderWallet, outputMap }) {
-        return {
-            timestamp: Date.now(),
-            amount: senderWallet.balance,
-            address: senderWallet.publicKey,
-            signature: senderWallet.sign(outputMap)
-        };
-    };
-
     static validTransaction(transaction) {
         const { input: { address, amount, signature }, outputMap } = transaction;
 
@@ -51,6 +33,30 @@ class Transaction {
         };
 
         return true;
+    };
+
+    createOutputMap({ senderWallet, recipient, amount }) {
+        const outputMap = {};
+
+        outputMap[recipient] = amount;
+        outputMap[senderWallet.publicKey] = senderWallet.balance - amount;
+
+        return outputMap;
+    };
+
+    createInput({ senderWallet, outputMap }) {
+        return {
+            timestamp: Date.now(),
+            amount: senderWallet.balance,
+            address: senderWallet.publicKey,
+            signature: senderWallet.sign(outputMap)
+        };
+    };
+
+    update({ senderWallet, recipient, amount }) {
+        this.outputMap[recipient] = amount;
+        this.outputMap[senderWallet.publicKey] = this.outputMap[senderWallet.publicKey]  - amount;
+        this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     };
 };
 
