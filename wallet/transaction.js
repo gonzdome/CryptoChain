@@ -1,5 +1,6 @@
 const uuid = require('uuid/v1');
 const { verifySignature } = require('../utils/elliptic');
+const { AMOUNT_EXCEEDS_BALANCE } = require('../utils/messages');
 
 class Transaction {
 
@@ -54,8 +55,12 @@ class Transaction {
     };
 
     update({ senderWallet, recipient, amount }) {
-        this.outputMap[recipient] = amount;
-        this.outputMap[senderWallet.publicKey] = this.outputMap[senderWallet.publicKey]  - amount;
+        if (amount > this.outputMap[senderWallet.publicKey]) throw new Error(AMOUNT_EXCEEDS_BALANCE);
+
+        if (!this.outputMap[recipient]) this.outputMap[recipient] = amount
+        else this.outputMap[recipient] = this.outputMap[recipient] + amount;
+
+        this.outputMap[senderWallet.publicKey] = this.outputMap[senderWallet.publicKey] - amount;
         this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     };
 };
