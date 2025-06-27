@@ -7,15 +7,17 @@ class Transaction {
     /**
      * Transaction Wallet
      */
-    /**
-     *
-     */
     constructor({ senderWallet, recipient, amount }) { 
         this.id = uuid();
         this.outputMap = this.createOutputMap({ senderWallet, recipient, amount });
         this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
     };
 
+    /**
+     * Validates the transaction.
+     * @param {any} transaction - The amount.
+     * @returns {boolean} If the transaction is valid or not.
+    */ 
     static validTransaction(transaction) {
         const { input: { address, amount, signature }, outputMap } = transaction;
 
@@ -36,6 +38,13 @@ class Transaction {
         return true;
     };
 
+    /**
+     * Creates the outputMap.
+     * @param {object} senderWallet - The sender wallet.
+     * @param {any} recipient - The recipient.
+     * @param {int} amount - The amount.
+     * @returns {object} The outputMap.
+    */ 
     createOutputMap({ senderWallet, recipient, amount }) {
         const outputMap = {};
 
@@ -45,6 +54,12 @@ class Transaction {
         return outputMap;
     };
 
+    /**
+     * Creates the input.
+     * @param {object} senderWallet - The sender wallet.
+     * @param {object} outputMap - The output map.
+     * @returns {object} The input.
+    */ 
     createInput({ senderWallet, outputMap }) {
         return {
             timestamp: Date.now(),
@@ -54,6 +69,12 @@ class Transaction {
         };
     };
 
+    /**
+     * Updates the transaction.
+     * @param {object} senderWallet - The sender wallet.
+     * @param {any} recipient - The recipient.
+     * @param {int} amount - The amount.
+    */ 
     update({ senderWallet, recipient, amount }) {
         if (amount > this.outputMap[senderWallet.publicKey]) throw new Error(AMOUNT_EXCEEDS_BALANCE);
 
