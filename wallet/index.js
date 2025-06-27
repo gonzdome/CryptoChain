@@ -19,11 +19,20 @@ class  Wallet {
         this.publicKey = this.keyPair.getPublic().encode('hex');
     };
 
+    /**
+     * Signs the hashed data to the Kei Pair.
+     * @param {any} data - The data to sign.
+    */ 
     sign(data) {
         const hashedData = cryptoHash(data);
         return this.keyPair.sign(hashedData);
     };
 
+    /**
+     * Creates the transaction.
+     * @param {int} amount - The amount.
+     * @param {any} recipient - The recipient.
+    */ 
     createTransaction({ amount, recipient }) {
         if (amount > this.balance) throw new Error(AMOUNT_EXCEEDS_BALANCE);
 
