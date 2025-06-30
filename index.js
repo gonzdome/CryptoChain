@@ -32,6 +32,18 @@ app.post('/api/mine', (req, res) => {
     res.redirect('/api/blocks');
 });
 
+app.post('/api/transaction', (req, res) => {
+    const { amount, recipient } = req.body;
+    
+    const transaction = wallet.createTransaction({ recipient, amount });
+
+    transactionPool.setTransaction(transaction);
+
+    console.log(`transactionPool ${transactionPool}`);
+
+    res.json({ transaction });
+});
+
 let PEER_PORT;
 if (process.env.GENERATE_PEER_PORT === 'true') {
     PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
