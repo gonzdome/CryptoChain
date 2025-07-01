@@ -48,7 +48,7 @@ app.post('/api/transaction', (req, res) => {
     };
     
     transactionPool.setTransaction(transaction);
-
+    
     pubsub.broadcastTransaction(transaction);
 
     res.status(200).json({ type: 'success', transaction });
