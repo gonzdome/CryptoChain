@@ -15,6 +15,14 @@ class TransactionPool {
     };
 
     /**
+     * Sets the map with the transactionPool data.
+     * @param {object} transactionPool - The transactionPool to set.
+    */ 
+    setMap(transactionPool) {
+        this.transactionMap = transactionPool;
+    };
+
+    /**
      * Checks if transaction exists.
      * @param {string} inputAddress - The address of the transaction.
     */ 
