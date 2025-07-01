@@ -1,4 +1,4 @@
-const { syncChains } = require('./helpers/sync-chains');
+const { syncChannels } = require('./helpers/sync-channels');
 const express = require('express');
 const bodyParser = require('body-parser');
 const PubSub = require('./app/pubsub');
@@ -11,7 +11,7 @@ const app = express();
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
-const pubsub = new PubSub({ blockchain, transactionPool });
+const pubsub = new PubSub({ blockchain, transactionPool, wallet });
 
 const DEFAULT_PORT = 3000;
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
@@ -69,6 +69,6 @@ app.listen(PEER_PORT, () => {
     console.log(`listening at http://localhost:${PEER_PORT}`);
 
     if (PEER_PORT !== DEFAULT_PORT) {
-        syncChains(ROOT_NODE_ADDRESS, blockchain);
+        syncChannels(ROOT_NODE_ADDRESS, blockchain, transactionPool);
     };
 });
