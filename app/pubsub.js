@@ -12,7 +12,6 @@ class PubSub {
         this.subscriber = redis.createClient(); 
 
         this.subscribeToChannels();
-        this.subscriber.subscribe(CHANNELS.BLOCKCHAIN);
 
         this.subscriber.on('message', (channel, message)=> this.handleMessage(channel, message));
     };
