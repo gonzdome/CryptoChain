@@ -1,16 +1,17 @@
 const uuid = require('uuid/v1');
 const { verifySignature } = require('../utils/elliptic');
 const { AMOUNT_EXCEEDS_BALANCE } = require('../utils/messages');
+const { REWARD_INPUT, MINING_REWARD } = require('../config');
 
 class Transaction {
 
     /**
      * Transaction Wallet
      */
-    constructor({ senderWallet, recipient, amount }) { 
+    constructor({ senderWallet, recipient, amount, outputMap, input }) { 
         this.id = uuid();
-        this.outputMap = this.createOutputMap({ senderWallet, recipient, amount });
-        this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
+        this.outputMap = outputMap || this.createOutputMap({ senderWallet, recipient, amount });
+        this.input = input || this.createInput({ senderWallet, outputMap: this.outputMap });
     };
 
     /**
@@ -36,6 +37,17 @@ class Transaction {
         };
 
         return true;
+    };
+
+    /**
+     * Rewards the miner.
+     * @param {object} minerWallet - The miner wallet.
+    */ 
+    static rewardTransaction({ minerWallet }) {
+        return new this({ 
+            input: REWARD_INPUT,
+            outputMap: { [minerWallet.publicKey]: MINING_REWARD, }
+        });
     };
 
     /**
