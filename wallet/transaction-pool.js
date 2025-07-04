@@ -34,8 +34,9 @@ class TransactionPool {
     };
 
     /**
-     * Returns the valid transactions.
-    */ 
+     * Returns all valid transactions in the pool.
+     * @returns {Array} An array of valid transactions.
+     */
     validTransactions() {
         return Object.values(this.transactionMap).filter(transaction => Transaction.validTransaction(transaction));
     };
