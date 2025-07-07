@@ -24,10 +24,13 @@ class Blockchain {
     }
 
     /**
-     * Replaces the chain.
-     * @param {array} chain - chain.
+     * Replaces the current chain with a new one if the new chain is longer and valid.
+     * Optionally executes a callback.
+     *
+     * @param {array} chain - The new blockchain array to replace the current chain.
+     * @param {function} [onSuccess] - Optional callback to execute.
     */ 
-    replaceChain(chain) {
+    replaceChain(chain, onSuccess) {
         if (chain.length <= this.chain.length) {
             console.error('The incoming chain must be longer!');
             return;
@@ -37,6 +40,8 @@ class Blockchain {
             console.error('The incoming chain must be valid!');
             return;
         }
+
+        if (onSuccess) onSuccess();
 
         console.log('replacing chaing with', chain)
         this.chain = chain;
