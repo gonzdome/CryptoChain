@@ -1,7 +1,9 @@
 const { AMOUNT_EXCEEDS_BALANCE } = require('../../utils/messages');
+const { STARTING_BALANCE } = require('../../config');
 const { verifySignature } = require('../../utils/elliptic');
 const Wallet = require('../index');
 const Transaction = require('../transaction');
+const Blockchain = require('../../blockchain');
 
 describe('Wallet', () => {
     let wallet;
@@ -69,6 +71,46 @@ describe('Wallet', () => {
 
             it('outputs the amount of the recipient', () => {
                 expect(transaction.outputMap[recipient]).toEqual(amount);
+            });
+        });
+    });
+
+    describe('calculateBalance()', () => {
+        let blockchain;
+
+        beforeEach(() => {
+            blockchain = new Blockchain();
+        });
+
+        describe('and there are no outputs for the wallet', () => {
+            it('returns the `STARTING_BALANCE`', () => {
+                expect(
+                    Wallet.calculateBalance({ chain: blockchain.chain, address: wallet.publicKey })
+                )
+                .toEqual(STARTING_BALANCE);
+            });
+        });
+
+        describe('and there are outputs for the wallet', () => {
+            let transactionOne, transactionTwo, nextTransaction;
+            
+            beforeEach(() => {
+                transactionOne = new Wallet().createTransaction({ amount: 50, recipient: wallet.publicKey });
+                transactionTwo = new Wallet().createTransaction({ amount: 75, recipient: wallet.publicKey });
+                nextTransaction = new Wallet().createTransaction({ amount: 100, recipient: 'another-address' });
+
+                blockchain.addBlock({ data: [transactionOne, transactionTwo] });
+            });
+
+            it('adds the sum of all outputs to the wallet balance', () => {
+                expect(
+                    Wallet.calculateBalance({ chain: blockchain.chain, address: wallet.publicKey })
+                )
+                .toEqual(
+                    STARTING_BALANCE +
+                    transactionOne.outputMap[wallet.publicKey] +
+                    transactionTwo.outputMap[wallet.publicKey]
+                );
             });
         });
     });
