@@ -30,7 +30,9 @@ class PubSub {
 
         switch(channel) {
             case CHANNELS.BLOCKCHAIN:
-                this.blockchain.replaceChain(parsedMessage);
+                this.blockchain.replaceChain(parsedMessage, () => {
+                    this.transactionPool.clear({ chain: parsedMessage });
+                });
                 break;
             case CHANNELS.TRANSACTION:
                 const existingTransaction = this.transactionPool.existingTransaction({inputAddress: this.wallet.publicKey});
