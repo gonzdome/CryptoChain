@@ -22,6 +22,7 @@ class  Wallet {
     /**
      * Signs the hashed data to the Kei Pair.
      * @param {any} data - The data to sign.
+     * @returns {any} The signature of the data.
     */ 
     sign(data) {
         const hashedData = cryptoHash(data);
@@ -32,8 +33,13 @@ class  Wallet {
      * Creates the transaction.
      * @param {int} amount - The amount.
      * @param {any} recipient - The recipient.
+     * @param {Array} chain - The blockchain array.
+     * @returns {Transaction} The created transaction.
+     * @throws {Error} If the amount exceeds the balance.
     */ 
-    createTransaction({ amount, recipient }) {
+    createTransaction({ amount, recipient, chain }) {
+        if (chain) this.balance = Wallet.calculateBalance({ chain, address: this.publicKey });
+
         if (amount > this.balance) throw new Error(AMOUNT_EXCEEDS_BALANCE);
 
         return new Transaction({ senderWallet: this, recipient, amount });
