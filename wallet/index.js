@@ -38,6 +38,33 @@ class  Wallet {
 
         return new Transaction({ senderWallet: this, recipient, amount });
     };
+
+    /**
+     * Calculates the balance for a given address by summing all outputs to that address
+     * across the entire blockchain, starting from the second block (index 1).
+     *
+     * The balance is computed as:
+     *   STARTING_BALANCE + sum of all outputs to the address in all transactions in all blocks (except genesis).
+     *
+     * @param {Object} param0 - The input object.
+     * @param {Array} param0.chain - The blockchain array.
+     * @param {string} param0.address - The public key address to calculate the balance for.
+     * @returns {number} The calculated balance for the address.
+     */
+    static calculateBalance({ chain, address }) {
+        let outputsTotal = 0;
+
+        for (let i = 1; i < chain.length; i++) {
+            const block = chain[i];
+
+            for (let transaction of block.data) {
+                const addressOutput = transaction.outputMap[address];
+                if (addressOutput) outputsTotal += addressOutput;
+            }
+        }
+
+        return STARTING_BALANCE + outputsTotal;
+    }
 };
 
 module.exports = Wallet;
