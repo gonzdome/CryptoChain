@@ -65,6 +65,12 @@ app.get('/api/mine-transactions', (req, res) => {
     res.redirect('/api/blocks');
 });
 
+app.get('/api/wallet-info', (req, res) => {
+    const address = wallet.publicKey;
+    const balance = Wallet.calculateBalance({ chain: blockchain.chain, address });
+    res.json({ address, balance });
+});
+
 let PEER_PORT;
 if (process.env.GENERATE_PEER_PORT === 'true') {
     PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
