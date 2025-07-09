@@ -4,11 +4,17 @@ const { AMOUNT_EXCEEDS_BALANCE } = require('../utils/messages');
 const { REWARD_INPUT, MINING_REWARD } = require('../config');
 
 class Transaction {
-
     /**
-     * Transaction Wallet
-     */
-    constructor({ senderWallet, recipient, amount, outputMap, input }) { 
+     * Creates a new Transaction instance.
+     * @constructor
+     * @param {Object} params - The parameters for the transaction.
+     * @param {Object} [params.senderWallet] - The wallet of the sender.
+     * @param {string} [params.recipient] - The recipient's public key.
+     * @param {number} [params.amount] - The amount to be transferred.
+     * @param {Object} [params.outputMap] - The output map for the transaction.
+     * @param {Object} [params.input] - The input details for the transaction.
+    */
+    constructor({ senderWallet, recipient, amount, outputMap, input }) {
         this.id = uuid();
         this.outputMap = outputMap || this.createOutputMap({ senderWallet, recipient, amount });
         this.input = input || this.createInput({ senderWallet, outputMap: this.outputMap });
@@ -18,18 +24,18 @@ class Transaction {
      * Validates the transaction.
      * @param {any} transaction - The amount.
      * @returns {boolean} If the transaction is valid or not.
-    */ 
+    */
     static validTransaction(transaction) {
         const { input: { address, amount, signature }, outputMap } = transaction;
 
         const outputMapTotal = Object.values(outputMap).reduce((total, outputAmount) => total + outputAmount);
-        
+
         if (amount != outputMapTotal) {
             console.error(`Invalid transaction from ${address}`);
             return false;
         };
 
-        const signatureIsValid = verifySignature({ publicKey: address, data:outputMap, signature });
+        const signatureIsValid = verifySignature({ publicKey: address, data: outputMap, signature });
 
         if (!signatureIsValid) {
             console.error(`Invalid signature from ${address}`);
@@ -42,9 +48,9 @@ class Transaction {
     /**
      * Rewards the miner.
      * @param {object} minerWallet - The miner wallet.
-    */ 
+    */
     static rewardTransaction({ minerWallet }) {
-        return new this({ 
+        return new this({
             input: REWARD_INPUT,
             outputMap: { [minerWallet.publicKey]: MINING_REWARD, }
         });
@@ -56,7 +62,7 @@ class Transaction {
      * @param {any} recipient - The recipient.
      * @param {int} amount - The amount.
      * @returns {object} The outputMap.
-    */ 
+    */
     createOutputMap({ senderWallet, recipient, amount }) {
         const outputMap = {};
 
@@ -71,7 +77,7 @@ class Transaction {
      * @param {object} senderWallet - The sender wallet.
      * @param {object} outputMap - The output map.
      * @returns {object} The input.
-    */ 
+    */
     createInput({ senderWallet, outputMap }) {
         return {
             timestamp: Date.now(),
@@ -86,7 +92,7 @@ class Transaction {
      * @param {object} senderWallet - The sender wallet.
      * @param {any} recipient - The recipient.
      * @param {int} amount - The amount.
-    */ 
+    */
     update({ senderWallet, recipient, amount }) {
         if (amount > this.outputMap[senderWallet.publicKey]) throw new Error(AMOUNT_EXCEEDS_BALANCE);
 
