@@ -11,11 +11,11 @@ class PubSub {
         this.wallet = wallet;
 
         this.publisher = redis.createClient();
-        this.subscriber = redis.createClient(); 
+        this.subscriber = redis.createClient();
 
         this.subscribeToChannels();
 
-        this.subscriber.on('message', (channel, message)=> this.handleMessage(channel, message));
+        this.subscriber.on('message', (channel, message) => this.handleMessage(channel, message));
     };
 
     /**
@@ -28,19 +28,19 @@ class PubSub {
 
         const parsedMessage = JSON.parse(message);
 
-        switch(channel) {
+        switch (channel) {
             case CHANNELS.BLOCKCHAIN:
                 this.blockchain.replaceChain(parsedMessage, () => {
                     this.transactionPool.clear({ chain: parsedMessage });
                 });
                 break;
             case CHANNELS.TRANSACTION:
-                const existingTransaction = this.transactionPool.existingTransaction({inputAddress: this.wallet.publicKey});
+                const existingTransaction = this.transactionPool.existingTransaction({ inputAddress: this.wallet.publicKey });
                 if (!existingTransaction)
                     this.transactionPool.setTransaction(parsedMessage);
                 break;
             default:
-                return; 
+                return;
         };
     };
 
@@ -73,7 +73,7 @@ class PubSub {
         this.publish({ channel: CHANNELS.BLOCKCHAIN, message: JSON.stringify(this.blockchain.chain) });
     };
 
-     /**
+    /**
      * Function to broadcast a message to the transaction channel.
     */
     broadcastTransaction(transaction) {
