@@ -70,6 +70,7 @@ class Blockchain {
 
             for (let transaction of block.data) {
                 const transactionAddress = transaction.input.address;
+
                 if (transactionAddress === REWARD_INPUT.address) {
                     rewardTransactionCount += 1;
 
