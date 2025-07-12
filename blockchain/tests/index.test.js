@@ -138,7 +138,7 @@ describe('Blockchain', () => {
 
             describe('and the chain is valid', () => {
                 beforeEach(() => {
-                    blockchain.replaceChain(newChain.chain);
+                    blockchain.replaceChain(newChain.chain, false);
                 });
                 it('replaces the chain', () => {
                     expect(blockchain.chain).toEqual(newChain.chain);
