@@ -31,9 +31,10 @@ class Blockchain {
      * Optionally executes a callback.
      *
      * @param {array} chain - The new blockchain array to replace the current chain.
+     * @param {boolean} validateTransactions - Whether to validate the transactions in the new chain.
      * @param {function} [onSuccess] - Optional callback to execute.
     */
-    replaceChain(chain, onSuccess) {
+    replaceChain(chain, validateTransactions, onSuccess) {
         if (chain.length <= this.chain.length) {
             console.error('The incoming chain must be longer!');
             return;
@@ -41,6 +42,11 @@ class Blockchain {
 
         if (!Blockchain.isValidChain(chain)) {
             console.error('The incoming chain must be valid!');
+            return;
+        };
+
+        if (validateTransactions && !this.validTransactionData({ chain })) {
+            console.error('The incoming chain has invalid transaction data!');
             return;
         };
 
