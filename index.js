@@ -1,6 +1,7 @@
 const { syncChannels } = require('./helpers/sync-channels');
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const PubSub = require('./app/pubsub');
 const Blockchain = require('./blockchain/index');
 const TransactionPool = require('./wallet/transaction-pool');
@@ -19,6 +20,7 @@ const DEFAULT_PORT = 3000;
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'client')));
 
 app.get('/api/blocks', (req, res) => {
     res.json(blockchain.chain);
@@ -26,7 +28,7 @@ app.get('/api/blocks', (req, res) => {
 
 app.post('/api/mine', (req, res) => {
     const { data } = req.body;
-    
+
     blockchain.addBlock({ data });
 
     pubsub.broadcastChain();
@@ -46,11 +48,11 @@ app.post('/api/transaction', (req, res) => {
             transaction = wallet.createTransaction({ recipient, amount, chain: blockchain.chain });
         };
     } catch (error) {
-        return res.status(400).json({ type: 'error', message: error.message});
+        return res.status(400).json({ type: 'error', message: error.message });
     };
-    
+
     transactionPool.setTransaction(transaction);
-    
+
     pubsub.broadcastTransaction(transaction);
 
     res.status(200).json({ type: 'success', transaction });
@@ -69,6 +71,10 @@ app.get('/api/wallet-info', (req, res) => {
     const address = wallet.publicKey;
     const balance = Wallet.calculateBalance({ chain: blockchain.chain, address });
     res.json({ address, balance });
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
 let PEER_PORT;
