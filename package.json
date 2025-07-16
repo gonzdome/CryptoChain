@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest --watchAll",
     "dev": "npm run start-redis && concurrently \"npm run dev-client\" \"npm run nodemon\"",
-    "nodemon": "nodemon index.js --ignore client --ignore .cache --ignore client/dist\"",
+    "nodemon": "bash -c 'sleep 0.5 && nodemon index.js --ignore client --ignore .cache --ignore client/dist'",
     "start-redis": "wsl redis-server --daemonize yes",
     "dev-client": "npm run clean && parcel client/src/index.html --out-dir client/dist",
     "build-client": "npm run clean && parcel build client/src/index.html --out-dir client/dist",
