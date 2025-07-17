@@ -7,6 +7,7 @@ const Blockchain = require('./blockchain/index');
 const TransactionPool = require('./wallet/transaction-pool');
 const Wallet = require('./wallet/index');
 const TransactionMiner = require('./app/transaction-miner');
+const TransactionSeeder = require('./wallet/seeder/transaction.seeder');
 
 const app = express();
 
@@ -73,9 +74,16 @@ app.get('/api/wallet-info', (req, res) => {
     res.json({ address, balance });
 });
 
+app.post('/api/seed-transactions', (req, res) => {
+    TransactionSeeder({ wallet, blockchain, transactionPool, pubsub });
+    res.json({ type: 'success', message: 'Transactions seeded successfully' });
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
+
+
 
 let PEER_PORT;
 if (process.env.GENERATE_PEER_PORT === 'true') {
