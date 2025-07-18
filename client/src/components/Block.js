@@ -4,7 +4,6 @@ class Block extends Component {
     render() {
         const { timestamp, hash, data } = this.props.block;
 
-        console.log(hash)
         const hashData = hash ? hash : 'No hash available';
         const hashDisplay = hashData.length > 15 ?
             `${hashData.substring(0, 15)}...` : hashData;
