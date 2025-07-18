@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Block from "./Block";
 
 class Blocks extends Component {
     state = { blocks: [] };
@@ -13,19 +14,14 @@ class Blocks extends Component {
         return (
             <div>
                 <h3>Blockchain</h3>
-                {/* <ul> */}
-                {this.state.blocks.map((block, index) =>
-                    //  (<li key={index}>
-                    //     <strong>{index === 0 ? "Genesis Block" : `Block ${index}`}:</strong>
-                    //     {JSON.stringify(block)}
-                    // </li>)
-
-                    <div key={block.hash} className="Block">{block.hash}</div>
-                )}
-                {/* </ul> */}
+                {
+                    this.state.blocks.map((block, index) =>
+                        <Block key={block.hash} block={block} />
+                    )
+                }
             </div>
         );
-    }
-}
+    };
+};
 
 export default Blocks;
