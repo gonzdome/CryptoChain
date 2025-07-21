@@ -26,6 +26,12 @@ body {
     align-items: left;
 }
 
+.Blockchain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .Block {
     background-color: #555;
     border: 1px solid #999;
