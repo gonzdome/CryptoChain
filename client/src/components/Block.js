@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import Transaction from "./Transaction";
 
 class Block extends Component {
     state = { displayTransaction: false };
@@ -16,7 +17,11 @@ class Block extends Component {
             `${stringfiedData.substring(0, 35)}...` : stringfiedData;
 
         return <div>
-            Data: {this.state.displayTransaction ? JSON.stringify(data) : dataDisplay}
+            {this.state.displayTransaction ?
+                data.map(transaction => (<div key={transaction.id}>
+                    <hr />
+                    <Transaction transaction={transaction} />
+                </div>)) : dataDisplay}
             <br />
             <Button
                 bsStyle="danger"
