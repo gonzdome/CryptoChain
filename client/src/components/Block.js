@@ -25,7 +25,7 @@ class Block extends Component {
             <br />
             <Button
                 bsStyle="danger"
-                bbSize="small"
+                bsSize="small"
                 onClick={this.toggleTransactionDisplay}
             >
                 {this.state.displayTransaction ? 'Hide' : 'Show More'}
