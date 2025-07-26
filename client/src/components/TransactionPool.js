@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Transaction from "./Transaction";
+import { POOL_INTERVAL_MS } from "../../../config";
 
 class TransactionPool extends Component {
     state = { transactionPoolMap: {} };
@@ -13,8 +14,12 @@ class TransactionPool extends Component {
 
     componentDidMount() {
         this.fetchTransactionPoolMap();
-        this.interval = setInterval(this.fetchTransactionPoolMap, 10000); // Fetch every 10 seconds
-    }
+        this.fetchPoolInterval = setInterval(() => this.fetchTransactionPoolMap(), POOL_INTERVAL_MS);
+    };
+
+    componentWillUnmount() {
+        clearInterval(this.fetchPoolInterval);
+    };
 
     render() {
         return (
