@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 import Transaction from "./Transaction";
 
 class Block extends Component {
@@ -12,7 +12,7 @@ class Block extends Component {
     get displayTransaction() {
         const { data } = this.props.block;
 
-        const stringfiedData = data ? JSON.stringify(data) : 'No data available';
+        const stringfiedData = data ? JSON.stringify(data) : "No data available";
         const dataDisplay = stringfiedData.length > 35 ?
             `${stringfiedData.substring(0, 35)}...` : stringfiedData;
 
@@ -28,7 +28,7 @@ class Block extends Component {
                 bsSize="small"
                 onClick={this.toggleTransactionDisplay}
             >
-                {this.state.displayTransaction ? 'Hide' : 'Show More'}
+                {this.state.displayTransaction ? "Hide" : "Show More"}
             </Button>
         </div>
     };
@@ -36,7 +36,7 @@ class Block extends Component {
     render() {
         const { timestamp, hash } = this.props.block;
 
-        const hashData = hash ? hash : 'No hash available';
+        const hashData = hash ? hash : "No hash available";
         const hashDisplay = hashData.length > 15 ?
             `${hashData.substring(0, 15)}...` : hashData;
 
