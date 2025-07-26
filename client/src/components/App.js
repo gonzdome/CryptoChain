@@ -28,6 +28,9 @@ class App extends Component {
                 <div>
                     <Link to="/blocks">View Blockchain</Link>
                 </div>
+                <div>
+                    <Link to="/transactions">New Transaction</Link>
+                </div>
                 <br />
 
                 <div className="WalletInfo">Wallet Information:
