@@ -6,6 +6,7 @@ import App from './components/App';
 import Blocks from './components/Blocks';
 import ConductTransaction from './components/ConductTransaction';
 import './index.css';
+import TransactionPool from './components/TransactionPool';
 
 render(
     <Router history={history}>
@@ -13,6 +14,7 @@ render(
             <Route exact path="/" component={App} />
             <Route path="/blocks" component={Blocks} />
             <Route path="/transactions" component={ConductTransaction} />
+            <Route path="/transaction-pool" component={TransactionPool} />
         </Switch>
     </Router>,
     document.getElementById('root')
