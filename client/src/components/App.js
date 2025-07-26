@@ -6,7 +6,7 @@ class App extends Component {
     state = { walletInfo: {} };
 
     componentDidMount() {
-        fetch(`${process.env.URL}${process.env.PORT}/api/wallet-info`)
+        fetch(`${document.location.origin}/api/wallet-info`)
             .then(response => response.json())
             .then(walletInfo => this.setState({ walletInfo }));
     };

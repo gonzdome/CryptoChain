@@ -18,7 +18,7 @@ class ConductTransaction extends Component {
         event.preventDefault();
         const { recipient, amount } = this.state;
 
-        fetch(`${process.env.URL}${process.env.PORT}/api/transaction`, {
+        fetch(`${document.location.origin}/api/transaction`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

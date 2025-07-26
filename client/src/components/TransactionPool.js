@@ -6,12 +6,9 @@ class TransactionPool extends Component {
     state = { transactionPoolMap: {} };
 
     fetchTransactionPoolMap = () => {
-        fetch(`${process.env.URL}${process.env.PORT}/api/transaction-pool-map`)
+        fetch(`${document.location.origin}/api/transaction-pool-map`)
             .then(response => response.json())
             .then(transactionPoolMap => this.setState({ transactionPoolMap }))
-            .catch(error => {
-                console.error("Error fetching transaction pool map:", error);
-            });
     };
 
     componentDidMount() {

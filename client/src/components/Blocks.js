@@ -6,7 +6,7 @@ class Blocks extends Component {
     state = { blocks: [] };
 
     componentDidMount() {
-        fetch(`${process.env.URL}${process.env.PORT}/api/blocks`)
+        fetch(`${document.location.origin}/api/blocks`)
             .then(response => response.json())
             .then(blocks => this.setState({ blocks }));
     }
