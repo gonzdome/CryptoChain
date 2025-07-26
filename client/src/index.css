@@ -42,7 +42,8 @@ body {
     width: 60%;
 }
 
-.Transaction {
+.Transaction,
+.TransactionPool {
     padding: 2%;
 }
 
