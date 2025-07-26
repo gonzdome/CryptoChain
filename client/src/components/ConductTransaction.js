@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import history from "../history";
 
 class ConductTransaction extends Component {
-    state = { recipient: '', amount: 0 };
+    state = { recipient: "", amount: 0 };
 
     updateRecipient = (event) => {
         this.setState({ recipient: event.target.value });
@@ -18,19 +19,19 @@ class ConductTransaction extends Component {
         const { recipient, amount } = this.state;
 
         fetch(`${process.env.URL}${process.env.PORT}/api/transaction`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ recipient, amount }),
         })
             .then(response => response.json())
             .then(data => {
                 alert(data.message || data.type);
-                this.setState({ recipient: '', amount: 0 });
+                history.push("/transaction-pool");
             })
             .catch(error => {
-                console.error('Error conducting transaction:', error);
+                console.error("Error conducting transaction:", error);
             });
     };
 
