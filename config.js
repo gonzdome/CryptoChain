@@ -1,7 +1,8 @@
 const MINE_RATE = 1000;
 const INITIAL_DIFFICULTY = 3;
+const POOL_INTERVAL_MS = 10000;
 
-const GENESIS_DATA = { 
+const GENESIS_DATA = {
     timestamp: 1,
     lastHash: '-----',
     hash: 'hash-one',
@@ -16,4 +17,4 @@ const REWARD_INPUT = { address: '*authorized-reward*' };
 
 const MINING_REWARD = 50;
 
-module.exports = { GENESIS_DATA, MINE_RATE, STARTING_BALANCE, REWARD_INPUT, MINING_REWARD };
+module.exports = { GENESIS_DATA, MINE_RATE, STARTING_BALANCE, REWARD_INPUT, MINING_REWARD, POOL_INTERVAL_MS };
